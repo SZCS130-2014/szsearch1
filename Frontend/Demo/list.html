@@ -21,7 +21,28 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
-	
+   <script src="assets/js/populate.js" >
+  </script> 
+  <script src="assets/js/querySolr.js" >	
+ </script>
+  <script src="assets/js/pagination.js" >	
+ </script>
+ <script>
+
+  /*
+   OLD SEARCH FUNCTION
+
+		function search() {
+			$('#keyword').text($('#srchFld').val());
+			$query = 'http://54.193.33.84:8080/solr/collection1/select?q='+$('#srchFld').val().replace(" ","%20")+'%0A&wt=json&indent=true';
+			console.log($query);
+			$.getJSON($query).success(function (data) {console.log(data);})
+		}
+		function addList() {
+			
+		}
+  */
+	</script>
 	
   </head>
 <body>
@@ -40,7 +61,19 @@
 					  <li class=""><a href="index.html">Home</a></li>
 					</ul>
 					<form action="#" class="navbar-search pull-right">
-			         <input id="srchFld" type="text" style="background-color: rgb(208, 234, 255)" placeholder="I'm looking for ..." class="search-query span6"/>
+			         <input id="srchFld" 
+                 type="text"
+                 style="background-color: rgb(208, 234, 255)"
+                 placeholder="I'm looking for ..."
+                 onkeydown="if (event.keyCode == 13) {
+                   var queryTerm = $('#srchFld').val();
+                   $('#keyword').text($('#srchFld').val());
+                   getProducts(queryTerm, 1, null , null, function(result) {
+                     // call list here. populate the list here if you can
+                     console.log(result);
+                     populate(result);      
+                   });
+                 }" class="search-query span6"/>
 			        </form>
 
                     <ul class="nav pull-right">
@@ -71,10 +104,10 @@
 </div>
 
 	<div class="span9">
-	<h3>Results for <a style="text-decoration:underline">Sony Camera</a></h3>
+	<h3>Results for <a style="text-decoration:underline" id="keyword">Sony Camera</a></h3>
 	<div id="myTab" class="pull-right">
- 		<a href="#listView" data-toggle="tab"><span class="btn btn-large"><i class="icon-list"></i></span></a>
-		<a href="#blockView" data-toggle="tab"><span class="btn btn-large active"><i class="icon-th-large"></i></span></a>
+ 		<a href="#listView" data-toggle="tab"><span class="btn btn-large active"><i class="icon-list"></i></span></a>
+		<a href="#blockView" data-toggle="tab"><span class="btn btn-large"><i class="icon-th-large"></i></span></a>
 	</div>
 
 <hr class="soft"/>
@@ -82,7 +115,7 @@
 </br>
 
 <div class="tab-content">
-	<div class="tab-pane" id="listView">
+	<div class="tab-pane active" id="listView">
 		<div class="row">
 			<div id="productView" class="span2">
 				<img src="assets/products/1.jpg" alt=""/>
@@ -153,7 +186,7 @@
 		</div>
 	</div>
 <!-- ------------------------------------------------------ -->
-	<div class="tab-pane  active" id="blockView">
+	<div class="tab-pane " id="blockView">
 		<ul class="thumbnails">
 			<li class="span3">
 			  <div class="thumbnail">
@@ -227,13 +260,13 @@
 </div>
 	<div class="pagination">
 			<ul>
-			<li><a href="#">&lsaquo;</a></li>
-			<li><a href="#">1</a></li>
-			<li><a href="#">2</a></li>
-			<li><a href="#">3</a></li>
-			<li><a href="#">4</a></li>
-			<li><a href="#">...</a></li>
-			<li><a href="#">&rsaquo;</a></li>
+			<li><a onclick="clickPagination($('#pag2').text())">&lsaquo;</a></li>
+			<li><a id="pag1" onclick="clickPagination($('#pag1').text())">1</a></li>
+			<li><a id="pag2" onclick="clickPagination($('#pag2').text())">2</a></li>
+			<li><a id="pag3" onclick="clickPagination($('#pag3').text())">3</a></li>
+			<li><a id="pag4" onclick="clickPagination($('#pag4').text())">4</a></li>
+			<li><a id="pag5" onclick="clickPagination($('#pag5').text())">5</a></li>
+			<li><a onclick="clickPagination($('#pag4').text(),2)">&rsaquo;</a></li>
 			</ul>
 			</div>
 			<br class="clr"/>
