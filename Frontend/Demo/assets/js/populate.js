@@ -9,7 +9,7 @@ function populate(result) {
   var modalViewPre = '<div class="modal fade" id="myModalTest" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
   modalViewPre += '<div class="modal-dialog">';
   modalViewPre += '<div class="modal-content">';
-  //modalViewPre += '<div class="modal-header"></div>';
+  modalViewPre += '<div class="modal-header"></div>';
   //modalViewEnd is the last part of the template for modal
   var modalViewEnd = '<div class="modal-footer">'
   modalViewEnd += '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>';
@@ -49,13 +49,14 @@ function populate(result) {
   }
   htmlAll +=" </div>";
   $("#listView").replaceWith(htmlAll);
-  $("#listView").append(modalViewPre + modalViewEnd);
+  $("#listView").append(modalViewPre+modalViewEnd);
   //$("#listView").append(modalViewEnd);
 
 }
 
 function calcRating(ratings){
   var total = 0;
+  if(typeof(ratings) == "undefined") return 0;
   for(var i = 0; i< ratings.length; i++){
     total +=parseInt(ratings[i]);
   }

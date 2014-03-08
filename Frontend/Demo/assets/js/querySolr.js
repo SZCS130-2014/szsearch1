@@ -23,26 +23,32 @@ var itemsPerPage = 30;
  */
 function getProducts(queryTerm, pageNumber, brandName, queryMode, callback) { 
 
+  var prodQueryParam = {
+    q: queryTerm,
+    start: itemsPerPage * (pageNumber -1),
+    end: itemsPerPage * pageNumber,
+    wt: 'json',
+    defType: 'edismax',
+    qf: titleField + "^" + 
+        titleWeight + " " +
+        categoryField + "^" +
+        categoryWeight + " " +
+        brandField + "^" +
+        brandWeight,
+
+    stopwords: true,
+    lowercaseOperators: true
+  };
+  // if there is a brand name, add that to the query
+  if(brandName) {
+    prodQueryParam.fq = "BrandExact=" + brandName;
+
+  }
   $.get(
     // add term to query
     baseURL,
-    {
-      q: queryTerm,
-      start: itemsPerPage * (pageNumber -1),
-      end: itemsPerPage * pageNumber,
-      wt: 'json',
-      defType: 'edismax',
-      qf: titleField + "^" + 
-          titleWeight + " " +
-          categoryField + "^" +
-          categoryWeight + " " +
-          brandField + "^" +
-          brandWeight,
-
-      stopwords: true,
-      lowercaseOperators: true
-    }
-    , function(rawQueryResult) { 
+    prodQueryParam,
+    function(rawQueryResult) { 
       var queryResult = JSON.parse(rawQueryResult);
       callback(queryResult.response.docs); 
     }
