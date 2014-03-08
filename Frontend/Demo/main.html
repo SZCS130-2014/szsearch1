@@ -21,7 +21,13 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
-	
+	<script>
+	function newDoc()
+	  {
+		var url = 'http://54.193.33.84:8080/Demo/list.html?'+$('#srchFld').val();
+		window.location.replace(url);
+	  }
+	</script>
 	
   </head>
 <body>
@@ -55,8 +61,10 @@
     <div class="offset3 span6">
 		<img src="images/Shopzilla_Logo.png">
 		</br></br>
-		<form action="#" class="navbar-search">
-		 <input id="srchFld" type="text" style="background-color: rgb(203, 230, 247); height: 30px; font-size: 18px; line-height: 22px" placeholder="I'm looking for ..." class="search-query span6"/>
+		<form action="list.html" method="GET" class="navbar-search">
+		 <input id="srchFld" name='q' type="text" style="background-color: rgb(203, 230, 247); height: 30px; font-size: 18px; line-height: 22px" placeholder="I'm looking for ..." class="search-query span6"/>
+		<hr class="soft">
+		<input type="submit" value="Submit">
 		</form>
     </div>
   </div>
@@ -112,19 +120,6 @@
     <script src="assets/js/jquery.js"></script>
 	<script src="assets/js/google-code-prettify/prettify.js"></script>
     <script src="assets/js/application.js"></script>
-    <script src="assets/js/bootstrap-transition.js"></script>
-    <script src="assets/js/bootstrap-modal.js"></script>
-    <script src="assets/js/bootstrap-scrollspy.js"></script>
-    <script src="assets/js/bootstrap-alert.js"></script>
-    <script src="assets/js/bootstrap-dropdown.js"></script>
-    <script src="assets/js/bootstrap-tab.js"></script>
-    <script src="assets/js/bootstrap-tooltip.js"></script>
-    <script src="assets/js/bootstrap-popover.js"></script>
-    <script src="assets/js/bootstrap-button.js"></script>
-    <script src="assets/js/bootstrap-collapse.js"></script>
-    <script src="assets/js/bootstrap-carousel.js"></script>
-    <script src="assets/js/bootstrap-typeahead.js"></script>
-    <script src="assets/js/bootstrap-affix.js"></script>
     <script src="assets/js/jquery.lightbox-0.5.js"></script>
 	<script src="assets/js/bootsshoptgl.js"></script>
 	 <script type="text/javascript">
