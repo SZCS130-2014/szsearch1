@@ -9,7 +9,7 @@ function populate(result) {
   var modalViewPre = '<div class="modal fade" id="myModalTest" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
   modalViewPre += '<div class="modal-dialog">';
   modalViewPre += '<div class="modal-content">';
-  modalViewPre += '<div class="modal-header"></div>';
+  modalViewPre += '<div class="modal-header"><span id="modal-head-content">test</span></div><div class="modal-body"><span id="modal-body-content"></span></div>';
   //modalViewEnd is the last part of the template for modal
   var modalViewEnd = '<div class="modal-footer">'
   modalViewEnd += '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>';
@@ -28,7 +28,9 @@ function populate(result) {
     htmlAll += "<h3>"+result[i].ProductTitle+"</h3>"+"<hr class='soft'/>";
     htmlAll += "<p> empty for now </p>"; //need to add content
     //htmlAll += "<a class='btn btn-small pull-right' href='product_details.html'>View Details</a><br class='clr'/>";
-    htmlAll += "<a class='btn btn-small pull-right' data-toggle='modal' data-target='#myModalTest'>View Details</a><br class='clr'/>";
+    htmlAll += "<a class='btn btn-small pull-right detail-page' data-toggle='modal' data-target='#myModalTest' data-id=";
+    htmlAll += i
+    htmlAll += ">View Details</a><br class='clr'/>";
 
     htmlAll += "</div>";
     
@@ -50,17 +52,53 @@ function populate(result) {
   htmlAll +=" </div>";
   $("#listView").replaceWith(htmlAll);
   $("#listView").append(modalViewPre+modalViewEnd);
-  //$("#listView").append(modalViewEnd);
+  /*
+  $(document).on("click",".detail-page",function(){
+    //var productId = $(this).data('id');
+    //populateModal()  
+  });
+  */
+  $(".detail-page").click(function(){
+    var iproduct = $(this).data('id'); 
+    populateModal(result[iproduct]);
+  });
+}
 
+/*
+ * generate product detail modal page content by given PID
+ * it should contain all the product title, review title and review content
+ */
+
+function populateModal(product){
+  var modalHead = "<span id='modal-head-content'><h3>" + product.ProductTitle + "</h3></span>"; 
+  $("#modal-head-content").replaceWith(modalHead);
+  
+  if(typeof(product.ReviewTitle) == "undefined") { 
+    var modalBody = "<span id='modal-body-content'>No Review NOW </span>";
+    $("#modal-body-content").replaceWith(modalBody);
+    return
+   }
+  else{
+    var modalBody = "<div id='modal-body-content'>";
+    for (var i =0; i<product.ReviewTitle.length;i++){
+      console.log(product.ReviewTitle[i]); 
+      modalBody += "<div><h4>" + product.ReviewTitle[i] + "</h4>"+" "+product.Rating[i]+"</div>"
+      modalBody += "<div>" + product.Review[i] + "</div>";
+    }
+    modalBody += "</div>";
+    $("#modal-body-content").replaceWith(modalBody);
+
+  }
+  
 }
 
 function calcRating(ratings){
   var total = 0;
-  if(typeof(ratings) == "undefined") return 0;
+  if(typeof(ratings) == "undefined") return "N/A";
   for(var i = 0; i< ratings.length; i++){
     total +=parseInt(ratings[i]);
   }
-  return Math.round(total/ratings.length);
+ return Math.round(total/ratings.length); 
 }
 function drawStar(score){
   var star = "";

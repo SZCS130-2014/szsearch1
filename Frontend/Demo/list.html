@@ -36,11 +36,14 @@
 		var queryTerm = q;
         getProducts(queryTerm, 1, null , null, function(result) {
           // call list here. populate the list here if you can
-          console.log(result);
           populate(result);      
         });
         $('#keyword').text(q);
 	}}
+  
+
+  
+  
 	);
   /*
    OLD SEARCH FUNCTION
@@ -93,22 +96,13 @@
 <div class="row">
 <div id="sidebar" class="span3">
 	<ul class="nav nav-list" style="display: block;">
-		</br>
-		</br>
-		<h3>Brand</h3>
-		<li><a href="products.html">Sony (13)</a></li>
-		<li><a href="products.html">Apple (1)</a></li>
-		<li><a href="products.html">Microsoft (2)</a></li>
-		</br>
-		<h3>Category</h3>
-		<li><a href="products.html">Cellphone (31)</a></li>
-		<li><a href="products.html">Camera (2)</a></li>		
-		<li style="border:0"> &nbsp;</li>						
-	  </ul>
+		<div id="sidebar_brand"></div>
+		<div id="sidebar_category"></div>
+	</ul>
 </div>
 
 	<div class="span9">
-	<h3>Results for <a style="text-decoration:underline" id="keyword"></a></h3>
+	<h3>Results for <a style="text-decoration:underline; color: red" id="keyword"></a></h3>
 	<div id="myTab" class="pull-right">
  		<a href="#listView" data-toggle="tab"><span class="btn btn-large active"><i class="icon-list"></i></span></a>
 		<a href="#blockView" data-toggle="tab"><span class="btn btn-large"><i class="icon-th-large"></i></span></a>
@@ -124,13 +118,12 @@
 	<div class="tab-pane" id="blockView"></div>
 	<div class="pagination">
 			<ul>
-			<li><a onclick="clickPagination($('#pag2').text(), 'left')">&lsaquo;</a></li>
 			<li><a id="pag1" onclick="clickPagination($('#pag1').text(), '')">1</a></li>
 			<li><a id="pag2" onclick="clickPagination($('#pag2').text(), '')">2</a></li>
 			<li><a id="pag3" onclick="clickPagination($('#pag3').text(), '')">3</a></li>
 			<li><a id="pag4" onclick="clickPagination($('#pag4').text(), '')">4</a></li>
 			<li><a id="pag5" onclick="clickPagination($('#pag5').text(), '')">5</a></li>
-			<li><a onclick="clickPagination($('#pag4').text(), 'right')">&rsaquo;</a></li>
+			<li><a id="more" >...</a></li>
 			</ul>
 			</div>
 			<br class="clr"/>
