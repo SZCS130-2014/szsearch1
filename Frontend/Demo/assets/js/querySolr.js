@@ -11,6 +11,32 @@ var brandWeight= "0.8";
 var baseURL = "http://54.193.33.84:8080/solr/collection1/select";
 var itemsPerPage = 30;
 
+function populate_onrefresh() {
+    var qs = (function(a) {
+        if (a == "") return {};
+        var b = {};
+        for (var i = 0; i < a.length; ++i)
+        {
+            var p=a[i].split('=');
+            if (p.length != 2) continue;
+            b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+        }
+        return b;
+    })(window.location.search.substr(1).split('&'));
+
+	var q = qs["q"];
+	var brand = qs["brand"];
+	var category = qs["category"];
+	if (q !== undefined){
+        getProducts(q, 1, brand, category, function(result) {
+          // call list here. populate the list here if you can
+          populate(result);      
+        });
+        $('#keyword').text(q);
+	}
+}
+
+
 function getSortedKeys(obj) {
     var keys = []; for(var key in obj) keys.push(key);
     return keys.sort(function(a,b){return obj[b]-obj[a]});
@@ -21,7 +47,9 @@ function populate_brand(result) {
     htmlAll += '<h3>Brand</h3>';
     brands = getSortedKeys(result);
     for (var i in brands) {
-        htmlAll += '<li><a href="products.html">' + brands[i].replace("Brand:","") + ' (' + result[brands[i]] + ')</a></li>'
+        htmlAll += '<li><a href="list.html' + '?q=' + $('#keyword').html() 
+                    + '&brand=' + brands[i].replace("Brand:","")
+                    + '">' + brands[i].replace("Brand:","") + ' (' + result[brands[i]] + ')</a></li>'
     }
     htmlAll += '</br>';
 	htmlAll += '</ul></div>';
@@ -33,7 +61,11 @@ function populate_category(result) {
     htmlAll += '<h3>Category</h3>';    
     categories = getSortedKeys(result);
     for (var i in categories) {
-        htmlAll += '<li><a href="products.html">' + categories[i].replace("Category:","") + ' (' + result[categories[i]] + ')</a></li>'
+        var cat = categories[i].replace('Category:','');
+        cat = cat.replace(/"/g,'')
+        htmlAll += '<li><a href="list.html' + '?q=' + $('#keyword').html() 
+                    + '&category=' + cat
+                    + '">' + cat + ' (' + result[categories[i]] + ')</a></li>'
     }
     htmlAll += '</br>';
 	htmlAll += '</ul></div>';
@@ -50,8 +82,8 @@ function populate_category(result) {
  * @param {Object} queryMode 	different query mode. Right now it does
  * not do anything
  */
-function getProducts(queryTerm, pageNumber, brandName, queryMode, callback) { 
-
+function getProducts(queryTerm, pageNumber, brandName, categoryName, callback) { 
+console.log(categoryName);
   var prodQueryParam = {
     q: queryTerm,
     start: itemsPerPage * (pageNumber -1),
@@ -64,8 +96,11 @@ function getProducts(queryTerm, pageNumber, brandName, queryMode, callback) {
   };
   // if there is a brand name, add that to the query
   if(brandName) {
-    prodQueryParam.fq = "BrandExact=" + brandName;
-
+    prodQueryParam.fq = "Brand:" + brandName;
+  }
+  if(categoryName) {
+    prodQueryParam.fq = "Category:" + '"' + categoryName + '"';
+    console.log(prodQueryParam.fq);
   }
   $.get(
     // add term to query
@@ -73,8 +108,15 @@ function getProducts(queryTerm, pageNumber, brandName, queryMode, callback) {
     prodQueryParam,
     function(rawQueryResult) { 
       var queryResult = JSON.parse(rawQueryResult);
-      var brands = getAllBrandNames(queryResult.response.docs);
-      var categories = getAllCategoryNames(queryResult.response.docs);
+      if (!brandName&&!categoryName) {
+          var brands = getAllBrandNames(queryResult.response.docs);
+          var categories = getAllCategoryNames(queryResult.response.docs);
+          localStorage.setItem("local_brands", brands);
+          localStorage.setItem("local_categories", categories);
+      } else {
+          var brands = localStorage.getItem("local_brands").split(',');
+          var categories = localStorage.getItem("local_categories").split(',');
+      }
       getBrandCount(queryTerm, brands, null, function(result) {populate_brand(result)});
       getCategoryCount(queryTerm, categories, null, function(result) {populate_category(result)});
       callback(queryResult.response.docs); 
@@ -117,7 +159,7 @@ function getAllCategoryNames(queryResult) {
  * not do anything
  */
 function getBrandCount(queryTerm, brandNames, queryMode, callback) { 
-    
+    searchQuery = queryTerm;
   var queryObj = {
     q: queryTerm,
     wt: 'json',
@@ -173,7 +215,7 @@ function getCategoryCount(queryTerm, categoryNames, queryMode, callback) {
   var str = $.param(queryObj);
   str += '&facet=true';
   for(var i = 0; i < categoryNames.length; i++) {
-    str += '&facet.query=Category:' + categoryNames[i];
+    str += '&facet.query=Category:' + '"' +categoryNames[i] + '"';
   }
 
   $.get(

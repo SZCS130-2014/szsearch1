@@ -29,22 +29,12 @@
  </script>
   <script src="assets/js/pagination.js" >	
  </script>
+  <script src="assets/js/getImages.js" >	
+ </script>
  <script>
 	$(document).ready(function() {
-	var q = location.href.split('.html?q=')[1];
-	if (q !== undefined){
-		var queryTerm = q;
-        getProducts(queryTerm, 1, null , null, function(result) {
-          // call list here. populate the list here if you can
-          populate(result);      
-        });
-        $('#keyword').text(q);
-	}}
-  
-
-  
-  
-	);
+		populate_onrefresh();
+	});
   /*
    OLD SEARCH FUNCTION
 
@@ -67,25 +57,18 @@
 <div class="navbar navbar-fixed-top">
               <div class="navbar-inner">
                 <div class="container">
-                  <div class="nav-collapse">
                     <ul class="nav">
-					  <li class=""><a href="index.html">Home</a></li>
-					  <li class=""><a href="index.html">Home</a></li>
-					  <li class=""><a href="index.html">Home</a></li>
-					  <li class=""><a href="index.html">Home</a></li>
-					  <li class=""><a href="index.html">Home</a></li>
-					  <li class=""><a href="index.html">Home</a></li>
+					  <li class=""><a href="main.html">Home</a></li>
 					</ul>
 					<form action="" class="navbar-search pull-right">
 			         <input id="srchFld" name="q"
                  type="text"
                  style="background-color: rgb(208, 234, 255)"
-                 placeholder="I'm looking for ..." class="search-query span6"/>
+                 placeholder="I'm looking for ..." class="search-query span4"/>
 			        </form>
 
                     <ul class="nav pull-right">
 					</ul>
-                  </div><!-- /.nav-collapse -->
                 </div>
               </div><!-- /navbar-inner -->
             </div>
