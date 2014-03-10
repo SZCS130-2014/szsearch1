@@ -26,11 +26,10 @@ function populate(result) {
     
     htmlAll += "<div class = 'span5'>";
     htmlAll += "<h3>"+result[i].ProductTitle+"</h3>"+"<hr class='soft'/>";
-    htmlAll += "<p> empty for now </p>"; //need to add content
-    //htmlAll += "<a class='btn btn-small pull-right' href='product_details.html'>View Details</a><br class='clr'/>";
+    htmlAll += "<img src='http://54.193.33.84:8080/Demo/images/Placeholder.png'>";
     htmlAll += "<a class='btn btn-small pull-right detail-page' data-toggle='modal' data-target='#myModalTest' data-id=";
-    htmlAll += i
-    htmlAll += ">View Details</a><br class='clr'/>";
+    htmlAll += i;
+    htmlAll += ">View Reviews</a><br class='clr'/>";
 
     htmlAll += "</div>";
     
@@ -38,7 +37,11 @@ function populate(result) {
     htmlAll += "<h4> Brand </h4>";
     htmlAll += "<p>" + result[i].Brand + "</p>";
     htmlAll += "<h4> Catetory </h4>";
-    htmlAll += "<p>" + result[i].Category + "</p>";
+    if (result[i].Category) {
+        htmlAll += "<p>" + result[i].Category + "</p>";
+    } else {
+        htmlAll += "<p>" + 'N/A' + "</p>";
+    }
     //calculate the average rating from reviews
     htmlAll += "<h4> Ratings </h4>";
     htmlAll += "<p>"+calcRating(result[i].Rating) +"<span class='glyphicon glyphicon-search'></span>" + "</p>";

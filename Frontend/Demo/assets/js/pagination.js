@@ -24,7 +24,6 @@ function clickPagination(pageNum, maxNum) {
     var query = $('#keyword').html();
     getProducts(query, pageNum, null, null, function(result) {
          // call list here. populate the list here if you can
-         console.log(result);
          populate(result);      
     });
     $('body').scrollTop(0);

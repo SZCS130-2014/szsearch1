@@ -1,6 +1,6 @@
 var filter = ['ass','piss','fuck','shit','asshole','Ass','basterd','bitch','cock'];
-function badWorldCheck(txt){
-  
+function badWordCheck(txt){
+      //var oldtxt = txt;
       // iterate over all words
       for(var i=0; i<filter.length; i++){
 
@@ -11,8 +11,9 @@ function badWorldCheck(txt){
         //var replacement = '*'.repeat(filter[i].length);
 
         txt = txt.replace(pattern, " ");
+        console.log(txt);
       }
-
+      console.log(txt);
       // returning txt will set the new text value for the current element
       return txt;
     

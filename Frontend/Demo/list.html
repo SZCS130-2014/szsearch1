@@ -29,7 +29,7 @@
  </script>
   <script src="assets/js/pagination.js" >	
  </script>
-  <script src="assets/js/getImages.js" >	
+ <script src="assets/js/wordfilter.js">
  </script>
  <script>
 	$(document).ready(function() {
@@ -86,22 +86,12 @@
 
 	<div class="span9">
 	<h3>Results for <a style="text-decoration:underline; color: red" id="keyword"></a></h3>
-	<div id="myTab" class="pull-right">
- 		<a href="#listView" data-toggle="tab"><span class="btn btn-large active"><i class="icon-list"></i></span></a>
-		<a href="#blockView" data-toggle="tab"><span class="btn btn-large"><i class="icon-th-large"></i></span></a>
-	</div>
-
 <hr class="soft"/>
-<br class="clr"/>
-</br>
-
 <div class="tab-content">
 	<div class="tab-pane active" id="listView"></div>
-	<!-- ------------------------------------------------------ -->
-	<div class="tab-pane" id="blockView"></div>
 	<div class="pagination">
 			<ul>
-			<li><a id="pag1" onclick="clickPagination($('#pag1').text(), '')">1</a></li>
+			<li><a id="pag1" style="background-color:rgb(100,150,250)" onclick="clickPagination($('#pag1').text(), '')">1</a></li>
 			<li><a id="pag2" onclick="clickPagination($('#pag2').text(), '')">2</a></li>
 			<li><a id="pag3" onclick="clickPagination($('#pag3').text(), '')">3</a></li>
 			<li><a id="pag4" onclick="clickPagination($('#pag4').text(), '')">4</a></li>
